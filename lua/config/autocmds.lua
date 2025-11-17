@@ -1,0 +1,140 @@
+-- No share or backup files in /mnt or /boot
+vim.api.nvim_create_autocmd({ "BufWritePre" }, {
+    pattern = { "/mnt/*", "/boot/*" },
+    callback = function()
+        vim.opt_local.undofile = true
+        vim.opt_local.shada = "NONE"
+    end,
+})
+
+-- Show yanking for 200ms
+vim.api.nvim_create_autocmd({ "TextYankPost" }, {
+    callback = function()
+        vim.hl.on_yank({
+            on_visual = false,
+            higroup = "IncSearch",
+            timeout = 200,
+        })
+    end,
+})
+
+-- Check if we need to reload the file when it changed
+vim.api.nvim_create_autocmd({ "FocusGained", "TermClose", "TermLeave" }, { command = "checktime" })
+
+-- go to last loc when opening a buffer
+vim.api.nvim_create_autocmd("BufReadPost", {
+    callback = function()
+        local mark = vim.api.nvim_buf_get_mark(0, '"')
+        local lcount = vim.api.nvim_buf_line_count(0)
+        if mark[1] > 0 and mark[1] <= lcount then
+            pcall(vim.api.nvim_win_set_cursor, 0, mark)
+        end
+    end,
+})
+
+-- close some filetypes with <q>
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = {
+        "PlenaryTestPopup",
+        "checkhealth",
+        "git",
+        "gitsigns-blame",
+        "greyjoy",
+        "help",
+        "lazy",
+        "lspinfo",
+        "macrothishelp",
+        "man",
+        "notify",
+        "nvim-pack",
+        "oil",
+        "qf",
+        "query",
+        "startuptime",
+        "tsplayground",
+    },
+    callback = function(event)
+        vim.bo[event.buf].buflisted = false
+        vim.keymap.set("n", "q", "<cmd>close<cr>", { buffer = event.buf, silent = true, desc = "Close buffer" })
+    end,
+})
+
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = {
+        "DiffviewFiles",
+        "DiffviewFileHistory",
+    },
+    callback = function(event)
+        vim.bo[event.buf].buflisted = false
+        vim.keymap.set("n", "q", "<cmd>DiffviewClose<cr>", { buffer = event.buf, silent = true, desc = "Close buffer" })
+    end,
+})
+
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = {
+        "qf",
+    },
+    callback = function(event)
+        vim.bo[event.buf].buflisted = false
+        vim.keymap.set(
+            "n",
+            "o",
+            "<cmd>silent! cfdo edit %<cr>",
+            { buffer = event.buf, silent = true, desc = "Edit all in quickfix list" }
+        )
+        vim.keymap.set("n", "r", function()
+            return ":cdo s///gc<Left><Left><Left><Left>"
+        end, { silent = false, expr = true, noremap = true, desc = "Search and replace all in quickfix list" })
+    end,
+})
+
+-- Attach my keymappins for all LSPs
+vim.api.nvim_create_autocmd("LspAttach", {
+    group = vim.api.nvim_create_augroup("UserLspConfig", {}),
+    callback = require("config.lspkeymaps").setkeys,
+})
+
+vim.api.nvim_create_autocmd("BufReadPost", {
+    group = vim.api.nvim_create_augroup("UserBufConfig", {}),
+    callback = function(ev)
+        require("core.format").on_attach(ev, ev.buf)
+    end,
+})
+
+vim.api.nvim_create_autocmd({ "FileType" }, {
+    group = vim.api.nvim_create_augroup("FormatOptions", { clear = true }),
+    pattern = { "*" },
+    callback = function()
+        -- :h fo-table
+        -- Disable autowrap and comments continued on new lines
+        vim.opt_local.fo:remove("c")
+        vim.opt_local.fo:remove("r")
+        vim.opt_local.fo:remove("o")
+        vim.opt_local.fo:remove("t")
+    end,
+})
+
+-- Clear jumps
+vim.api.nvim_create_autocmd("VimEnter", {
+    group = vim.api.nvim_create_augroup("ClearJumps", { clear = true }),
+    callback = function()
+        vim.cmd.clearjumps()
+    end,
+})
+
+vim.api.nvim_create_autocmd("BufWritePre", {
+    pattern = { "*.zig", "*.zon" },
+    callback = function(_)
+        vim.lsp.buf.code_action({
+            context = { only = { "source.organizeImports" } },
+            apply = true,
+        })
+    end,
+})
+
+-- Auto-resize splits when window is resized
+vim.api.nvim_create_autocmd("VimResized", {
+    callback = function()
+        vim.cmd("wincmd =")
+    end,
+})
