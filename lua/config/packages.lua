@@ -30,6 +30,7 @@ vim.pack.add({
     { src = "https://github.com/mistweaverco/kulala.nvim" },
     { src = "https://github.com/mfussenegger/nvim-lint" },
     { src = "https://github.com/mrcjkb/rustaceanvim", version = vim.version.range("v6.*") },
+    { src = "https://github.com/mbbill/undotree" },
 
     -- Own
     { src = "https://github.com/desdic/greyjoy.nvim" },

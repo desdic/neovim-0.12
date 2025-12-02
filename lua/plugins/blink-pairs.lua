@@ -16,7 +16,6 @@ require("blink.pairs").setup({
                     ")",
                     when = function(ctx)
                         return not ctx:text_after_cursor():match("[^%)%]%}'\"]")
-                        -- return ctx:text_after_cursor():match("^%s*$")
                     end,
                 },
             },
@@ -47,6 +46,29 @@ require("blink.pairs").setup({
             ["'"] = {
                 {
                     "'",
+                    when = function(ctx)
+                        return not ctx:text_after_cursor():match("[^%)%]%}'\"]")
+                    end,
+                },
+                {
+                    '"""',
+                    when = function(ctx)
+                        return ctx:text_before_cursor(2) == '""' and not ctx:text_after_cursor():match("[^%)%]%}'\"]")
+                    end,
+                    languages = { "python" },
+                },
+            },
+            ["`"] = {
+                {
+                    -- "`\n```" .. vim.api.nvim_replace_termcodes("<up>", true, true, true),
+                    "\n\n``",
+                    when = function(ctx)
+                        return ctx:text_before_cursor(2) == "``"
+                    end,
+                    languages = { "markdown", "markdown_inline", "typst", "vimwiki", "rmarkdown", "rmd", "quarto" },
+                },
+                {
+                    "`",
                     when = function(ctx)
                         return not ctx:text_after_cursor():match("[^%)%]%}'\"]")
                     end,

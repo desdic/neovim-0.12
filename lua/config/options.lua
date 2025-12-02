@@ -65,18 +65,25 @@ o.errorbells = false -- Disable error bells
 o.showcmd = false -- Don't show commands
 o.undodir = DATA_PATH .. "/undo" -- Save and set undo/redo levels
 o.undofile = true
-o.undolevels = 100
-o.undoreload = 100
 o.listchars = "tab:▸ ,trail:·,nbsp:␣,extends:❯,precedes:❮" -- Hidden chars
--- o.clipboard = "unnamedplus"
+o.clipboard = "unnamedplus" -- Use system clipboard
 o.foldenable = false
 o.swapfile = true
 o.conceallevel = 0 -- so that `` is visible in markdown files
 o.splitbelow = true
 o.splitright = true
-o.mouse = ""
+o.mouse = "a"
 o.pumheight = 10 -- Maximum number of entries in a popup
 o.winborder = "rounded" -- Give all floating windows a border
+
+-- Update times and timeouts.
+o.updatetime = 300
+o.timeoutlen = 500
+o.ttimeoutlen = 10
+
+-- Case insensitive searching UNLESS /C or the search has capitals.
+opt.ignorecase = true
+opt.smartcase = true
 
 wo.signcolumn = "yes" -- Always show signcolumn // number
 wo.number = true -- Show numbers
@@ -85,3 +92,6 @@ wo.list = true -- Show hidden chars
 wo.cursorline = true
 
 bo.scrollback = 10000
+
+-- Needed to download spelling
+vim.cmd("let g:netrw_liststyle = 3")
