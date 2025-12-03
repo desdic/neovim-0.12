@@ -1,3 +1,5 @@
+vim.pack.add({ { src = "https://github.com/catppuccin/nvim", name = "catppuccin" } }, { load = true, confirm = false })
+
 require("catppuccin").setup({
     flavour = "mocha",
     default_integrations = false,

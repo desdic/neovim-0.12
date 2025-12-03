@@ -1,3 +1,7 @@
+vim.pack.add({
+    { src = "https://github.com/desdic/marlin.nvim" },
+}, { confirm = false })
+
 local marlin = require("marlin")
 marlin.setup({
     open_callback = require("marlin.callbacks").use_split,

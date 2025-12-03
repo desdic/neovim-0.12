@@ -1,3 +1,7 @@
+vim.pack.add({
+    { src = "https://github.com/mrcjkb/rustaceanvim", version = vim.version.range("v6.*") },
+}, { confirm = false })
+
 vim.g.rustaceanvim = {
     tools = {},
     server = {
