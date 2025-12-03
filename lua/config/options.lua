@@ -75,6 +75,7 @@ o.splitright = true
 o.mouse = "a"
 o.pumheight = 10 -- Maximum number of entries in a popup
 o.winborder = "rounded" -- Give all floating windows a border
+-- o.more = false -- Don't wait on `more`
 
 -- Update times and timeouts.
 o.updatetime = 300
