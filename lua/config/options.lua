@@ -45,7 +45,7 @@ opt.softtabstop = 4
 opt.smartindent = true
 opt.autoindent = true
 
-o.cmdheight = 2 -- Set height to prevent 'press enter to continue'
+o.cmdheight = 1 -- Set height to prevent 'press enter to continue'
 o.hidden = true -- Allow to switch buffer without saving
 o.backspace = "indent,eol,start" -- allow backspace on indent, end of line or insert mode start position
 o.jumpoptions = "view" -- save 'view' when jumping
@@ -75,7 +75,7 @@ o.splitright = true
 o.mouse = "a"
 o.pumheight = 10 -- Maximum number of entries in a popup
 o.winborder = "rounded" -- Give all floating windows a border
--- o.more = false -- Don't wait on `more`
+o.more = false -- Don't wait on `more`
 
 -- Update times and timeouts.
 o.updatetime = 300
