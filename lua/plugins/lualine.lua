@@ -18,6 +18,52 @@ vim.defer_fn(function()
         return "  " .. cur_index .. "/" .. indexes
     end
 
+    -- From https://github.com/MariaSolOs
+    vim.api.nvim_create_autocmd("LspProgress", {
+        group = vim.api.nvim_create_augroup("lspstatusprogress", { clear = true }),
+        desc = "Update LSP progress in statusline",
+        pattern = { "begin", "end" },
+        callback = function(args)
+            -- This should in theory never happen, but I've seen weird errors.
+            if not args.data then
+                return
+            end
+
+            progress_status = {
+                client = vim.lsp.get_client_by_id(args.data.client_id).name,
+                kind = args.data.params.value.kind,
+                title = args.data.params.value.title,
+            }
+
+            if progress_status.kind == "end" then
+                progress_status.title = nil
+                -- Wait a bit before clearing the status.
+                vim.defer_fn(function()
+                    vim.cmd.redrawstatus()
+                end, 3000)
+            else
+                vim.cmd.redrawstatus()
+            end
+        end,
+    })
+
+    local lsp_progress_component = function()
+        if not progress_status.client or not progress_status.title then
+            return ""
+        end
+
+        -- Avoid noisy messages while typing.
+        if vim.startswith(vim.api.nvim_get_mode().mode, "i") then
+            return ""
+        end
+
+        return table.concat({
+            "󱥸 ",
+            string.format("%s  ", progress_status.client),
+            string.format("%s...", progress_status.title),
+        })
+    end
+
     local hide_in_width = function()
         return vim.fn.winwidth(0) > 80
     end
@@ -110,10 +156,8 @@ vim.defer_fn(function()
                     "dapui_watches",
                     "dashboard",
                     "help",
-                    "neogitstatus",
                     "qf",
                     "startify",
-                    "toggleterm",
                 },
             },
             always_divide_middle = true,
@@ -125,6 +169,7 @@ vim.defer_fn(function()
                 marlin_component,
             },
             lualine_x = {
+                lsp_progress_component,
                 diff,
                 spaces,
                 "encoding",
