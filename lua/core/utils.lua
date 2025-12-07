@@ -1,10 +1,5 @@
 local M = {}
 
--- Check if plugin is loaded
-M.has_plugin = function(plugin)
-    return pcall(require, plugin)
-end
-
 M.pack_clean = function()
     local unused_plugins = {}
 
