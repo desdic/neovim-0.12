@@ -1,5 +1,5 @@
 vim.pack.add({
-    { src = "https://github.com/mrcjkb/rustaceanvim", version = vim.version.range("v6.*") },
+    { src = "https://github.com/mrcjkb/rustaceanvim", version = vim.version.range("v7.*") },
 }, { confirm = false })
 
 vim.g.rustaceanvim = {
