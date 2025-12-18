@@ -2,8 +2,28 @@
   "contributes": {
     "snippets": [
       {
+        "language": "all",
+        "path": "./all.json"
+      },
+      {
         "language": "go",
         "path": "./go.json"
+      },
+      {
+        "language": "c",
+        "path": "./c.json"
+      },
+      {
+        "language": "cpp",
+        "path": "./cpp.json"
+      },
+      {
+        "language": "editorconfig",
+        "path": "./editorconfig.json"
+      },
+      {
+        "language": "python",
+        "path": "./python.json"
       }
     ]
   }
