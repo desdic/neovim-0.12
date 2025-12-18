@@ -187,3 +187,26 @@ vim.api.nvim_create_user_command("Scratch", function()
         vim.api.nvim_set_option_value(name, value, { buf = buf })
     end
 end, { desc = "Open a scratch buffer", nargs = 0 })
+
+vim.api.nvim_create_user_command("LspClients", function()
+    local enabled = {}
+    for _, c in pairs(vim.lsp.get_clients({ bufnr = 0 })) do
+        enabled[c.name] = true
+    end
+    vim.print(vim.tbl_keys(enabled))
+end, { desc = "list enabled LSPs", nargs = 0 })
+
+vim.api.nvim_create_autocmd({ "FileType", "LspAttach" }, {
+    group = vim.api.nvim_create_augroup("TreesitterSetup", { clear = true }),
+    callback = function(event)
+        local lang = vim.treesitter.language.get_lang(event.match) or event.match
+        -- local buf = event.buf
+
+        if vim.treesitter.query.get(lang, "highlights") then
+            vim.treesitter.start()
+        end
+        if vim.treesitter.query.get(lang, "indents") then
+            vim.bo.indentexpr = "v:lua.require('nvim-treesitter').indentexpr()"
+        end
+    end,
+})
