@@ -11,15 +11,3 @@ require("mini.tabline").setup({
     end,
     tabpage_section = "right",
 })
-
-vim.defer_fn(function()
-    require("mini.ai").setup({
-        mappings = {
-            -- Disable next/last variants.
-            around_next = "",
-            inside_next = "",
-            around_last = "",
-            inside_last = "",
-        },
-    })
-end, 300)

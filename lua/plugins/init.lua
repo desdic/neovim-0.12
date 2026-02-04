@@ -1,6 +1,7 @@
 -- Order how I want to load plugins
 
 require("plugins.nvim-treesitter")
+require("plugins.nvim-treesitter-textobjects")
 require("plugins.nvim-web-devicons")
 require("plugins.catppuccin")
 
@@ -22,11 +23,10 @@ require("plugins.gitlinker")
 require("plugins.macrothis")
 require("plugins.markdown-preview")
 require("plugins.nvim-lint")
-require("plugins.undotree")
 require("plugins.greyjoy")
 require("plugins.agrolens")
 require("plugins.kulala")
 require("plugins.go")
 require("plugins.rustaceanvim")
 require("plugins.which-key")
-require("plugins.dap.init")
+require("plugins.opencode")

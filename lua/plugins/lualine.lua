@@ -29,14 +29,14 @@ vim.defer_fn(function()
                 return
             end
 
-            progress_status = {
+            PROGRESS_STATUS = {
                 client = vim.lsp.get_client_by_id(args.data.client_id).name,
                 kind = args.data.params.value.kind,
                 title = args.data.params.value.title,
             }
 
-            if progress_status.kind == "end" then
-                progress_status.title = nil
+            if PROGRESS_STATUS.kind == "end" then
+                PROGRESS_STATUS.title = nil
                 -- Wait a bit before clearing the status.
                 vim.defer_fn(function()
                     vim.cmd.redrawstatus()
@@ -48,7 +48,7 @@ vim.defer_fn(function()
     })
 
     local lsp_progress_component = function()
-        if not progress_status.client or not progress_status.title then
+        if not PROGRESS_STATUS.client or not PROGRESS_STATUS.title then
             return ""
         end
 
@@ -59,8 +59,8 @@ vim.defer_fn(function()
 
         return table.concat({
             "󱥸 ",
-            string.format("%s  ", progress_status.client),
-            string.format("%s...", progress_status.title),
+            string.format("%s  ", PROGRESS_STATUS.client),
+            string.format("%s...", PROGRESS_STATUS.title),
         })
     end
 
@@ -164,12 +164,13 @@ vim.defer_fn(function()
             globalstatus = true,
         },
         sections = {
-            lualine_b = { "branch", diagnostics },
+            lualine_b = { "branch", diagnostics, vim.diagnostic.status() },
             lualine_c = {
                 marlin_component,
             },
             lualine_x = {
                 lsp_progress_component,
+                require("opencode").statusline,
                 diff,
                 spaces,
                 "encoding",
