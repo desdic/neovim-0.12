@@ -13,6 +13,10 @@ vim.defer_fn(function()
         "stdout",
         "--issues-exit-code=0",
         "--show-stats=false",
+        "--allow-parallel-runners",
+        "--concurrency=8",
+        "--config",
+        "~/.config/golangci/golangci.yaml",
         function()
             return vim.fn.fnamemodify(vim.api.nvim_buf_get_name(0), ":h")
         end,
