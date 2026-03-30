@@ -11,14 +11,6 @@ M.on_attach = function(client, bufnr)
     end
 
     local keymap = vim.keymap.set
-
-    vim.lsp.document_color.enable(true, bufnr)
-    if has_cap("documentColor") then
-        keymap({ "n", "x" }, "grc", function()
-            vim.lsp.document_color.color_presentation()
-        end, { buffer = bufnr, desc = "vim.lsp.document_color.color_presentation()" })
-    end
-
     local ft = vim.bo.ft
 
     local is_go = function(filetype)
