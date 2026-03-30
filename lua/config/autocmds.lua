@@ -61,17 +61,6 @@ vim.api.nvim_create_autocmd("FileType", {
 
 vim.api.nvim_create_autocmd("FileType", {
     pattern = {
-        "DiffviewFiles",
-        "DiffviewFileHistory",
-    },
-    callback = function(event)
-        vim.bo[event.buf].buflisted = false
-        vim.keymap.set("n", "q", "<cmd>DiffviewClose<cr>", { buffer = event.buf, silent = true, desc = "Close buffer" })
-    end,
-})
-
-vim.api.nvim_create_autocmd("FileType", {
-    pattern = {
         "qf",
     },
     callback = function(event)
@@ -200,7 +189,6 @@ vim.api.nvim_create_autocmd({ "FileType", "LspAttach" }, {
     group = vim.api.nvim_create_augroup("TreesitterSetup", { clear = true }),
     callback = function(event)
         local lang = vim.treesitter.language.get_lang(event.match) or event.match
-        -- local buf = event.buf
 
         if vim.treesitter.query.get(lang, "highlights") then
             vim.treesitter.start()
