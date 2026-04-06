@@ -1,7 +1,8 @@
 -- Order how I want to load plugins
 
-require("plugins.nvim-treesitter")
-require("plugins.nvim-treesitter-textobjects")
+require("plugins.nvim-treesitter") -- archived
+require("plugins.simple-treesitter")
+
 require("plugins.nvim-web-devicons")
 require("plugins.catppuccin")
 
