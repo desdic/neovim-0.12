@@ -1,4 +1,7 @@
-vim.cmd("packadd simple-treesitter.nvim")
+vim.pack.add({
+    { src = "https://github.com/desdic/simple-treesitter.nvim" },
+}, { confirm = false })
+
 require("simple-treesitter").setup({
     parsers = {
         bash = {
@@ -47,7 +50,6 @@ require("simple-treesitter").setup({
             revision = "8b5b49eb196bec7040441bee33b2c9a4838d6967",
             url = "https://github.com/tree-sitter/tree-sitter-cpp",
         },
-
         dockerfile = {
             revision = "971acdd908568b4531b0ba28a445bf0bb720aba5",
             url = "https://github.com/camdencheek/tree-sitter-dockerfile",
